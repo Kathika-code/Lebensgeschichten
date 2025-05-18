@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>
+        L_NO_TOUCH = false;
+        L_DISABLE_3D = false;
+    </script>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        #map_84677abc75ee085b8c0ce89a368ea0a2 {
+            position: relative;
+            width: 100.0%;
+            height: 100.0%;
+            left: 0.0%;
+            top: 0.0%;
+        }
+        .leaflet-container { font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+<div style="
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5vw;
+    font-weight: bold;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2vw;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+    max-width: 50%;
+    text-align: center;
+    z-index: 1000;
+">
+    Sounds like Annenviertel
+</div>
+
+<div style="
+    position: fixed;
+    bottom: 2%;
+    right: 2%;
+    width: 50%;
+    font-size: 4vw;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2vw;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+    z-index:9999;
+    text-align: left;
+">
+    <b>Legende</b><br>
+    <i style="background:purple; width:5vw; height:5vw; display:inline-block;"></i> Annenstraße<br>
+    <i style="background:orange; width:5vw; height:5vw; display:inline-block;"></i> Griesplatz<br>
+    <i style="background:gray; width:5vw; height:5vw; display:inline-block;"></i> Feuerbachgasse<br>
+    <i style="background:green; width:5vw; height:5vw; display:inline-block;"></i> Elisabethinergasse<br>
+</div>
+
+<div style="
+    position: fixed;
+    bottom: 2%;
+    left: 2%;
+    width: 40%;
+    font-size: 3.5vw;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2vw;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+    text-align: left;
+    z-index: 1000;
+">
+    Diese Karte dient nur als Prototyp für eine mögliche Umsetzung.
+</div>
+
+<div class="folium-map" id="map_84677abc75ee085b8c0ce89a368ea0a2"></div>
+
+<script>
+    var map_84677abc75ee085b8c0ce89a368ea0a2 = L.map("map_84677abc75ee085b8c0ce89a368ea0a2", {
+        center: [47.0707, 15.4395],
+        zoom: 14,
+        zoomControl: true,
+        preferCanvas: false,
+    });
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        minZoom: 0,
+        maxZoom: 19,
+        maxNativeZoom: 19,
+        attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+        subdomains: "abc",
+        detectRetina: false,
+        tms: false,
+        opacity: 1,
+    }).addTo(map_84677abc75ee085b8c0ce89a368ea0a2);
+
+    function createMarker(lat, lng, color, title, text, imgUrl) {
+        var icon = L.AwesomeMarkers.icon({
+            icon: 'shopping-cart',
+            markerColor: color,
+            prefix: 'fa'
+        });
+
+        var popupContent = `
+            <div style="text-align:center;">
+                <strong>${title}</strong><br>
+                <img src="${imgUrl}" alt="${title}" style="width:100%; max-width:200px; margin:10px 0;"><br>
+                <span style="font-size:0.9rem;">${text}</span>
+            </div>
+        `;
+
+        L.marker([lat, lng], {icon: icon})
+            .bindPopup(popupContent)
+            .addTo(map_84677abc75ee085b8c0ce89a368ea0a2);
+    }
+
+    createMarker(
+        47.07121, 15.42506, 'purple',
+        "Farmah's Indien Supermarket",
+        "Seit 23 Jahren betreibt die Familie Farmah den Supermarkt. Die Kundschaft ist bunt gemischt: neben der indischen Community gibt es auch viele afrikanische, südamerikanische, mexikanische und auch österreichische KundInnen. - Amet Farmah",
+        "https://www.annenpost.at/wp-content/uploads/2025/01/Amet-Farmah.jpg"
+    );
+
+    createMarker(
+        47.06410, 15.43148, 'orange',
+        "Estan Supermarket",
+        "Estan Supermarket mit einer großen Vielfalt an Produkten. Öffnungszeiten: Mo-Fr: 8-19 Uhr/Sa: 8-18 Uhr",
+        "https://www.etsan.at/wp-content/uploads/2025/05/493516902_1108961574597855_6499456158449619481_n.jpg"
+    );
+
+    createMarker(
+        47.06632, 15.42720, 'green',
+        "Aka Chukuwu Afroshop",
+        "Afrikanischer Supermarkt:Essen, Kosmetik, Getränke und mehr!",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGpNmH5DoCXNDAQBK_NlpXGLOxlHnq-nx-Rw&s"
+    );
+
+    createMarker(
+        47.07006, 15.43201, 'gray',
+        "Mama Lee Afroshop",
+        "\"Mama Lee ist einfach perfekt! Preis, Leistungs Verhältnis passt und man fühlt sich bei ihr in guten Händen. Salon ist wie ein Stück aus Afrika und der Flair deshalb sehr familiär! Frisur top und voll zufrieden!\" - Review",
+        "https://www.annenpost.at/wp-content/uploads/2017/02/Mama-e1485960288292.jpg"
+    );
+</script>
+</body>
+</html>
